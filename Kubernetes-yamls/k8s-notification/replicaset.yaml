@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: firenet-notification
+  labels:
+    model: firenet
+    function: notification
+    env: cloud
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      model: firenet
+      function: notification
+      env: cloud
+  template:
+    metadata:
+      labels:
+        model: firenet
+        function: notification
+        env: cloud
+    spec:
+      containers:
+      - name: firenet-notification
+        image: tigonguyen/firedetection:firenet-notification
+        ports:
+            - containerPort: 8080
+              protocol: TCP
+      nodeName: thanhnha-dashboard

@@ -1,0 +1,57 @@
+1. Done first-boot setting up (video call with TiGo for advising)
+2. VPN setup
+	# Ensuring that the Jetson can connect to Internet
+	# Install OpenVPN
+		sudo apt-get update
+		sudo apt-get install openvpn
+	# Clone source for connect VPN
+		cd ~/Desktop
+		git clone https://github.com/tigonguyen/fire-dectection
+	# Connect VPN by using openvpn
+		cd fire-dectection/vpn/client-config/
+		sudo openvpn share5.ovpn
+	# Then open new tab for another tasks
+3. Installing Docker on Jetson
+	# Update for apt
+	sudo apt-get update
+	# Installing dependencies
+	sudo apt-get install \
+    		apt-transport-https \
+    		ca-certificates \
+    		curl \
+    		gnupg-agent \
+    		software-properties-common
+	# Add Docker’s official GPG key
+	curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+	# add link to download Docker for arm architecture to /etc/apt/source.list
+	sudo add-apt-repository \
+   		"deb [arch=arm64] https://download.docker.com/linux/ubuntu \
+   		$(lsb_release -cs) \
+   		stable"
+	# Update again (must) and Installing Docker
+	sudo apt-get update
+	sudo apt-get install docker-ce docker-ce-cli containerd.io
+4. Install kubelet, kubeadm
+	# Run one-by-one
+		sudo apt-get update && sudo apt-get install -y apt-transport-https curl
+
+		curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+
+		cat <<EOF | sudo tee /etc/apt/sources.list.d/kubernetes.list
+		deb https://apt.kubernetes.io/ kubernetes-xenial main
+		EOF
+		
+		sudo apt-get update
+	
+		sudo apt-get install -y kubelet kubeadm kubectl
+
+		sudo apt-mark hold kubelet kubeadm kubectl
+5. Join Jetson to Kubernetes cluster
+	# Ensuring that swapoff and using sudo
+		sudo swapoff -a
+	##### Access to Kubernetes master on cloud to get token for joining
+	##### Or you can ping me for doing next steps if you worry that you may make some confict on k8s master
+		sudo kubeadm token create --print-join-command
+	# Get the output (kubeadm join ....) and run on Jetson, remember to use "sudo"
+	# Check on master that Jetson has joined or not
+		kubectl get node

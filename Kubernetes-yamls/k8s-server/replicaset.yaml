@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: firenet-server
+  labels:
+    model: firenet
+    function: server
+    env: cloud
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      model: firenet
+      function: server
+      env: cloud
+  template:
+    metadata:
+      labels:
+        model: firenet
+        function: server
+        env: cloud
+    spec:
+      containers:
+      - name: firenet-server
+        image: tigonguyen/firedetection:firenet-server
+        ports:
+            - containerPort: 8000
+              protocol: TCP
+      nodeName: thanhnha-dashboard

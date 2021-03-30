@@ -1,0 +1,12 @@
+# Media files
+*.mp4
+*.jpg
+*.png
+
+# Pre-trained models
+*checkpoint
+firenet.*
+
+# Jetson Nano needed
+jetson-ota-public.*
+nvidia-l4t-apt-source.*

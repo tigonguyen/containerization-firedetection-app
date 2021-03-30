@@ -1,0 +1,5 @@
+requests
+opencv-python
+zmq
+tensorflow==1.15
+tflearn

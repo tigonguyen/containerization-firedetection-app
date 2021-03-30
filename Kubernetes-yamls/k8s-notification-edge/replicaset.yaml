@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: firenet-notification-edge
+  labels:
+    model: firenet
+    function: notification
+    env: edge
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      model: firenet
+      function: notification
+      env: edge
+  template:
+    metadata:
+      labels:
+        model: firenet
+        function: notification
+        env: edge
+    spec:
+      containers:
+      - name: firenet-notification-edge
+        image: tigonguyen/firedetection:firenet-notification-edge
+        ports:
+            - containerPort: 8080
+              protocol: TCP
+      nodeName: jetson-nano
